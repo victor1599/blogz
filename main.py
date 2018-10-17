@@ -10,8 +10,8 @@ db = SQLAlchemy(app)
 class Blog(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)     
-    title = db.Column(db.String(180))  
-    post = db.Column(db.String(1000))   
+    title = db.Column(db.String)  
+    post = db.Column(db.Text)   
 
     def __init__(self, title, post):
         self.title = title
