@@ -12,7 +12,12 @@
         <textarea rows="4" cols="25" name="blog_post" >{{ post_entry }}</textarea>
         <p class="error">{{blog_error}} &nbsp;</p>
         <br><br>
+        <input id="submit_button" type="submit" value="Add Entry">
+    </form>
+    {% else %}
+    <a href="/login.html">Please Log In!</a>
+{% endif %}
+{% endblock %}
 
-    <input id="submit_button" type="submit" value="Add Entry">
-</form>
-{% endblock  %}
+</body>
+</html>

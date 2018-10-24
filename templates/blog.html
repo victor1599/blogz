@@ -1,10 +1,38 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block content %}
-    <h1>Build a Blog</h1>
+    {% if session['logged_in'] %}
+        <h1>Welcome to {{ user.username }} Sandbox</h1>
+
+        <nav>
+        <a href="/logout">Logout</a>
+        </nav>
+        <nav>
+        <a href="/newblog">New Post</a>
+        </nav>
+    {% else %}
+        <h1>Welcome to the Sandbox</h1>
+        <nav>
+        <a href="/signup">Register</a>
         <div>
-            {% for blog in posts %}
-            <h2><a href="./blog?id={{blog.id}}">{{blog.title}}</a></h2>
-            <p>{{blog.post}}</p>
-            {% endfor %}
+        <a href="/login">Login</a>
         </div>
-{% endblock  %}
+        </nav>
+
+    {% endif %}
+
+
+    {% if session['logged_in'] %}
+    <h2>Previous Blogs</h2>
+    <ul>
+    {% for blog in blogs %}
+    <li>
+
+        <a href="/blog/{{blog.id}}/">{{blog.title}}</a>
+        <p>Author:{{ session['username'] }}</p>
+    </li>
+    {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if not session["logged_in"] %}
+        <h2>Rece
