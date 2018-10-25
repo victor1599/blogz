@@ -24,22 +24,12 @@
                             class= "link_button" name= "blog_title" 
                             value= "{{ blog.title }}"/>
                     </td>
-                    <!--<td>
-                        <form id= "individual_user" action "/">
-                            <input form= "individual_user" type= "submit" 
-                                class= "link_button" name= "user" 
-                                value= "{{ blog.owner }}"/>
-                        </form>
-                    </td>-->
                     <td> 
                         {{ blog.body }}
                     </td>
                 </tr>
             </form>
         {% endfor %}
-
         </table>
     {% endif %}
-
-
 {% endblock %}

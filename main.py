@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:Miami2020@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:Miami2020@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = 'LOL'
@@ -76,10 +76,10 @@ def AddBlog():
             new_blog = Blog(new_title, new_body, existing_user)
             db.session.add(new_blog)
             db.session.commit()
-            author = User.query.filter_by(id= new_blog.owner_id).first()
-            return redirect("/individual_entry?blog_title=" + new_title)
+            author = User.query.filter_by(id= new_blog.key_id).first()
+            return redirect("/individual?blog_title=" + new_title)
 
-    return render_template('newpost.html', title= "Add a blog post", 
+    return render_template("newpost.html", title= "Add a blog post", 
         add_body= new_body, add_title= new_title,
         title_blank= error["title_blank"], body_blank= error["body_blank"],
         welcome= welcome)
@@ -93,12 +93,11 @@ def One_Blog():
     title = request.args.get('blog_title')
     if title:
         existing_blog = Blog.query.filter_by(title= title).first()
-        author = User.query.filter_by(id= existing_blog.owner_id).first()
-        return render_template("individual_entry.html", 
-            title= existing_blog.title, body= existing_blog.body,
+        author = User.query.filter_by(id= existing_blog.key_id).first()
+        return render_template("individual.html", title= existing_blog.title, body= existing_blog.body,
             author= author.username, welcome= welcome)
 
-@app.route("/UserPage")
+@app.route("/singleUser")
 def UserPosts():
     welcome = "Not logged in"
     if 'user' in session:
@@ -112,7 +111,7 @@ def UserPosts():
             title= user+"'s posts", blogs= user_posts)
 
     user_list = User.query.all()
-    return render_template("blog.html", title= "Blog",
+    return render_template("AllUser.html", title= "Blog",
         welcome= welcome, user_list= user_list)
 
 @app.route("/register", methods=['POST', 'GET'])
@@ -176,8 +175,14 @@ def login():
 
 @app.route("/logout", methods= ['POST', 'GET'])
 def logout():
-    if 'user' in session:
-        del session['user']
-    return redirect('/blog')
+    current_user = session['user']
+    if request.method == 'POST':
+        yes = request.form['logout']
+        print(yes)
+        
+        session['user'] = ""
+        return redirect("/blog")
+    return render_template("logout.html", title= "Logout", name= current_user)
+
 if __name__== '__main__':
     app.run()

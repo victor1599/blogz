@@ -29,20 +29,17 @@
                         </form>
                     </td>
                     <td>
-                        <form id= "individual_user" action= "/UserPage">
+                        <form id= "individual_user" action= "/singleUser">
                             <input form= "individual_user" type= "submit" 
                                 class= "link_button" name= "user_link" 
-                                value= "{{ blog.owner }}"/>
+                                value= "{{ blog.key }}"/>
                         </form>
                     </td>
-                    
                     <td> 
                         {{ blog.body }}
                     </td>
                 </tr>
         {% endfor %}
-
         </table>
     {% endif %}
-
 {% endblock %}
