@@ -50,9 +50,9 @@ def show_blog():
     blogs = Blog.query.all()
     welcome = "Not logged in"
     if 'user' in session:
-        welcome = "Logged in as: " + session['user']
+        welcome = session['user']
 
-        return render_template('home.html', title= "Blog by Pablo Escobar", blogs= blogs, welcome= welcome)
+        return render_template('home.html', title= "Blog Users!!", blogs= blogs, welcome= welcome)
 
 @app.route("/add", methods= ['POST', 'GET'])
 def AddBlog():
@@ -60,12 +60,12 @@ def AddBlog():
     new_body = ""
     new_title = ""
 
-    welcome = "Logged in as: " + session['user']
+    welcome = session['user']
     existing_user = User.query.filter_by(username=session['user']).first()
 
     if request.method == 'POST':
         new_title = request.form["title"]
-        new_body = request.form["body"]
+        new_body = request.form["post"]
 
         if new_title == "":
             error["title_blank"] = "Enter a title"
@@ -88,27 +88,27 @@ def AddBlog():
 def One_Blog():
     welcome = "Not logged in"
     if 'user' in session:
-        welcome = "Logged in as: " + session['user']
+        welcome = session['user']
 
     title = request.args.get('blog_title')
     if title:
         existing_blog = Blog.query.filter_by(title= title).first()
         author = User.query.filter_by(id= existing_blog.key_id).first()
-        return render_template("individual.html", title= existing_blog.title, body= existing_blog.body,
+        return render_template("individual.html", title= existing_blog.title, post= existing_blog.post,
             author= author.username, welcome= welcome)
 
 @app.route("/singleUser")
 def UserPosts():
     welcome = "Not logged in"
     if 'user' in session:
-        welcome = "Logged in as: " + session['user']
+        welcome = session['user']
 
     user = request.args.get('user_link')
     if user:
         existing_user = User.query.filter_by(username= user).first()
         user_posts = existing_user.blogs
         return render_template("singleUser.html", welcome= welcome,
-            title= user+"'s posts", blogs= user_posts)
+            title= "Blog posts!!", blogs= user_posts)
 
     user_list = User.query.all()
     return render_template("AllUser.html", title= "Blog",
@@ -175,14 +175,9 @@ def login():
 
 @app.route("/logout", methods= ['POST', 'GET'])
 def logout():
-    current_user = session['user']
-    if request.method == 'POST':
-        yes = request.form['logout']
-        print(yes)
-        
-        session['user'] = ""
+     if 'user' in session:
+        del session['user']
         return redirect("/blog")
-    return render_template("logout.html", title= "Logout", name= current_user)
-
+        
 if __name__== '__main__':
     app.run()

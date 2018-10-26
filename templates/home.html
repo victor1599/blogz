@@ -7,7 +7,7 @@
     {% if blogs|length == 0 %}
         <p> No blogs</p>
     {% else %}
-        <table>
+        <table cellspacing="13">
             <thead>
                 <td> 
                     <p><b>Post Title</b></p>
@@ -15,8 +15,8 @@
                 <td>
                     <p><b>Author</b></p>
                 </td>
-                <td> 
-                    <p><b>Post Body</b></p>
+                <td>
+                    <p><b>Post</b></p>
                 </td>
             </thead>
         {% for blog in blogs %}
@@ -36,7 +36,7 @@
                         </form>
                     </td>
                     <td> 
-                        {{ blog.body }}
+                        {{ blog.post }}
                     </td>
                 </tr>
         {% endfor %}
