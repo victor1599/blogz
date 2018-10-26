@@ -70,17 +70,15 @@
         </header>
         <br>
         <main>
-            <div class="container">
-                    {% with messages = get_flashed_messages() %}
-                        {% for message in messages %}
-                            <div class="flash_message">{{message|safe}}</div>
-                        {% endfor %}
-                    {% endwith %}
-                
-                    {% block content %}
-                    {% endblock %}
-                
-                </div>
+            <div>
+                {% with messages = get_flashed_messages() %}
+                    {% for message in messages %}
+                        <div>{{message|safe}}</div>
+                    {% endfor %}
+                {% endwith %}
+                {% block content %}
+                {% endblock %}
+            </div>
         </main>
     </body>
 </html>
