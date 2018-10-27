@@ -94,7 +94,7 @@ def One_Blog():
     if title:
         existing_blog = Blog.query.filter_by(title= title).first()
         author = User.query.filter_by(id= existing_blog.key_id).first()
-        return render_template("individual.html", title= existing_blog.title, post= existing_blog.post,
+        return render_template("individual_user_in.html", title= existing_blog.title, post= existing_blog.post,
             author= author.username, welcome= welcome)
 
 @app.route("/singleUser")
@@ -111,7 +111,7 @@ def UserPosts():
             title= "Blog posts!!", blogs= user_posts)
 
     user_list = User.query.all()
-    return render_template("AllUser.html", title= "Blog",
+    return render_template("blog_user.html", title= "Blog",
         welcome= welcome, user_list= user_list)
 
 @app.route("/register", methods=['POST', 'GET'])
